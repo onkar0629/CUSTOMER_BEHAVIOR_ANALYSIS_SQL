@@ -72,13 +72,9 @@ The project contains six relational tables.
 
 # 🖼️ Data Model
 
-> Add your ER Diagram here.
-
-```md
 <p align="center">
-    <img src="DOCS/Data_Model.png" width="900">
+    <img src="https://github.com/onkar0629/CUSTOMER_BEHAVIOR_ANALYSIS_SQL/blob/main/DOCS/Data_Model.png?raw=true" alt="Data Model" width="900">
 </p>
-```
 
 ---
 
