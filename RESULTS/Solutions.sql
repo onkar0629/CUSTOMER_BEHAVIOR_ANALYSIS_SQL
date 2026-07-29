@@ -14,23 +14,54 @@ USE customer_behavior_analysis;
 -- ##########################################################################
 -- Q1. How many customers registered in the first six months of 2017? Name the column registration_count.
 
+SELECT COUNT(*) AS Registration_Count
+FROM customers
+WHERE YEAR(registration_date) = 2017
+  AND MONTH(registration_date) BETWEEN 1 AND 6;
 
 -- ##########################################################################
 -- Question : Q2
 -- ##########################################################################
--- Q2. Show the number of registrations in the current week. Name the column registrations_current_week.
+-- Q2. Show the number of registrations in the current week.
+-- Name the column registrations_current_week.
 
+SELECT COUNT(*) AS registrations_current_week
+FROM customers
+WHERE WEEK(registration_date) = WEEK(CURDATE())
+  AND YEAR(registration_date) = YEAR(CURDATE());
 
 -- ##########################################################################
 -- Question : Q3
 -- ##########################################################################
--- Q3. Create a report containing the 2017 monthly registration counts. Show the registration_month and registration_count columns. Order the results by month.
+-- Q3. Create a report containing the 2017 monthly registration counts.
+-- Show the registration_month and registration_count columns. Order the results by month.
 
+SELECT
+    MONTH(registration_date) AS registration_month,
+    COUNT(*) AS registration_count
+FROM customers
+WHERE YEAR(registration_date) = 2017
+GROUP BY registration_month
+ORDER BY registration_month;
 
 -- ##########################################################################
 -- Question : Q4
 -- ##########################################################################
--- Q4. Find the registration count for each month in each year. Show the following columns: registration_year, registration_month, and registration_count. Order the results by year and month.
+-- Q4. Find the registration count for each month in each year.
+-- Show the following columns: registration_year, registration_month, and registration_count.
+-- Order the results by year and month.
+
+SELECT
+    YEAR(registration_date) AS registration_year,
+    MONTH(registration_date) AS registration_month,
+    COUNT(*) AS registration_count
+FROM customers
+GROUP BY
+    YEAR(registration_date),
+    MONTH(registration_date)
+ORDER BY
+    registration_year,
+    registration_month;
 
 
 -- ##########################################################################
@@ -38,24 +69,101 @@ USE customer_behavior_analysis;
 -- ##########################################################################
 -- Q5. Write an SQL query to find the number of customer registrations per year for each channel.
 
+SELECT
+    YEAR(c.registration_date) AS registration_year,
+    ch.channel_name,
+    COUNT(*) AS registration_count
+FROM customers c
+         JOIN channels ch
+              ON c.channel_id = ch.id
+GROUP BY
+    YEAR(c.registration_date),
+    ch.channel_name
+ORDER BY
+    registration_year,
+    ch.channel_name;
 
 -- ##########################################################################
 -- Question : Q6
 -- ##########################################################################
 -- Q6. Write an SQL query to find the number of customer registrations per year for organic search channel.
 
+-- SubQuery
+
+SELECT
+    YEAR(registration_date) AS registration_year,
+    COUNT(*) AS registration_count
+FROM customers
+WHERE channel_id = (
+    SELECT id
+    FROM channels
+    WHERE channel_name = 'Organic Search'
+)
+GROUP BY YEAR(registration_date)
+ORDER BY registration_year;
+
+-- Joins
+
+SELECT
+    YEAR(c.registration_date) AS registration_year,
+    COUNT(*) AS registration_count
+FROM customers c
+         JOIN channels ch
+              ON c.channel_id = ch.id
+WHERE ch.channel_name = 'Organic Search'
+GROUP BY registration_year
+ORDER BY registration_year;
+
+-- CTE
+
+WITH organic_channel AS (
+    SELECT id
+    FROM channels
+    WHERE channel_name = 'Organic Search'
+)
+SELECT
+    YEAR(c.registration_date) AS registration_year,
+    COUNT(*) AS registration_count
+FROM customers c
+         JOIN organic_channel oc
+              ON c.channel_id = oc.id
+GROUP BY YEAR(c.registration_date)
+ORDER BY registration_year;
 
 -- ##########################################################################
 -- Question : Q7
 -- ##########################################################################
--- Q7. Create a report to show the weekly counts of registration in 2017, based on the customer country. Show the following columns: registration_week, country, and registration_count. Order the results by week.
+-- Q7. Create a report to show the weekly counts of registration in 2017, based on the customer country.
+-- Show the following columns: registration_week, country, and registration_count. Order the results by week.
 
+SELECT
+    WEEK(registration_date) AS registration_week,
+    country,
+    COUNT(*) AS registration_count
+FROM customers
+WHERE YEAR(registration_date) = 2017
+GROUP BY
+    country,
+    registration_week
+ORDER BY
+    registration_week;
 
 -- ##########################################################################
 -- Question : Q8
 -- ##########################################################################
--- Q8. Among customers registered in 2017, show how many made at least one purchase (name the column customers_with_purchase) and the number of all the customers registered in 2017 (name the column all_customers).
+-- Q8. Among customers registered in 2017, show how many made at least one purchase
+-- (name the column customers_with_purchase) and the number of all the customers registered
+-- in 2017 (name the column all_customers).
 
+-- Left Join
+
+SELECT
+    COUNT(DISTINCT o.customer_id) AS customers_with_purchase,
+    COUNT(DISTINCT c.customer_id) AS all_customers
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE YEAR(c.registration_date) = 2017;
 
 -- ##########################################################################
 -- Question : Q9
