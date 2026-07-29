@@ -32,7 +32,7 @@ Customer_Behavior_Analysis/
 │   ├── 01_create_database.sql
 │   ├── 02_create_tables.sql
 │   ├── 03_constraints.sql
-│   ├── 04_load_data.sql
+│   ├── 03_load_data.sql
 │   ├── 05_data_validation.sql
 │   │
 │   ├── analysis/
