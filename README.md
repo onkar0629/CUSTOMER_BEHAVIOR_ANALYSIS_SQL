@@ -33,7 +33,6 @@ The project focuses on answering **30 real-world business questions** related to
 # 🔄 Customer Lifecycle
 
 ```text
-                 Customer Lifecycle
 
         Website Visitor
                │
@@ -73,7 +72,7 @@ The project contains six relational tables.
 # 🖼️ Data Model
 
 <p align="center">
-    <img src="https://github.com/onkar0629/CUSTOMER_BEHAVIOR_ANALYSIS_SQL/blob/main/DOCS/Data_Model.png?raw=true" alt="Data Model" width="900">
+    <img src="https://github.com/onkar0629/CUSTOMER_BEHAVIOR_ANALYSIS_SQL/blob/main/DOCS/EER_Diagram.png?raw=true" alt="Data Model" width="900">
 </p>
 
 ---
@@ -106,7 +105,7 @@ CUSTOMER_BEHAVIOR_ANALYSIS_SQL/
 │   └── RAW/
 │
 ├── DOCS/
-│   ├── Data_Model.png
+│   ├── EER_Diagram.png
 │   ├── EER_Diagram.mwb
 │   ├── Project_Customer_Behavior_Analysis.pdf
 │   └── Schema_Explanation.md
@@ -199,18 +198,6 @@ The project is divided into five major business areas.
 
 ---
 
-# 📁 SQL Files
-
-| File | Description |
-|------|-------------|
-| 01_create_database.sql | Creates the project database |
-| 02_create_tables.sql | Creates all tables |
-| 03_load_data.sql | Loads CSV files into MySQL |
-| 04_data_validation.sql | Validates imported data |
-| 05_questions.sql | Contains all 30 SQL questions and solutions |
-
----
-
 # 📸 Results
 
 Each business question includes:
@@ -229,23 +216,6 @@ RESULTS/
     ├── ...
     └── Q30.png
 ```
-
----
-
-# 🎓 Learning Outcomes
-
-By completing this project, you will gain hands-on experience in:
-
-- Customer Analytics
-- Marketing Analytics
-- Customer Segmentation
-- Customer Conversion Analysis
-- Customer Retention Analysis
-- Churn Analysis
-- SQL Query Writing
-- SQL Query Optimization
-- Business KPI Reporting
-- Relational Database Design
 
 ---
 
