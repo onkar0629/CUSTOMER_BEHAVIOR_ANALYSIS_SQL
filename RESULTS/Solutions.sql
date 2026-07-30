@@ -168,38 +168,115 @@ WHERE YEAR(c.registration_date) = 2017;
 -- ##########################################################################
 -- Question : Q9
 -- ##########################################################################
--- Q9. Find the lifetime conversion rate among customers who registered in 2017. Show the result in a column named conversion_rate. Round the result to four decimal places.
+-- Q9. Find the lifetime conversion rate among customers who registered in 2017.
+-- Show the result in a column named conversion_rate.
+-- Round the result to four decimal places.
 
+SELECT
+    ROUND(
+            COUNT(DISTINCT o.customer_id) / COUNT(DISTINCT c.customer_id),
+            4
+    ) AS Conversion_rate
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE YEAR(c.registration_date) = 2017;
 
 -- ##########################################################################
 -- Question : Q10
 -- ##########################################################################
--- Q10. Find the conversion rate for each customer channel. Show the channel_name and conversion_rate columns. Display the conversion rates as percentages rounded to two decimal places.
+-- Q10. Find the conversion rate for each customer channel. Show the channel_name and
+-- conversion_rate columns. Display the conversion rates as percentages rounded to two decimal places.
 
+
+SELECT
+    ch.channel_name,
+    ROUND(
+            COUNT(DISTINCT o.customer_id) / COUNT(DISTINCT c.customer_id) * 100,
+            2
+    ) AS Conversion_Percentages
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+JOIN channels ch
+ON c.channel_id = ch.id
+GROUP BY ch.channel_name;
 
 -- ##########################################################################
 -- Question : Q11
 -- ##########################################################################
--- Q11. Create a report showing conversion rates in monthly basis. Display the conversion rates as ratios, rounded to three decimal places. Show the following columns: year, month, and conversion_rate. Order the results by year and month.
+-- Q11. Create a report showing conversion rates in monthly basis. Display the conversion
+-- rates as ratios, rounded to three decimal places. Show the following
+-- columns: year, month, and conversion_rate. Order the results by year and month.
 
+SELECT
+    YEAR(c.registration_date) AS Year,
+    MONTH(c.registration_date) AS Month,
+    ROUND(
+            COUNT(DISTINCT o.customer_id) / COUNT(DISTINCT c.customer_id),3
+    ) AS Conversion_Ratios
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY
+    YEAR(c.registration_date),
+    MONTH(c.registration_date)
+ORDER BY
+    YEAR(c.registration_date),
+    MONTH(c.registration_date);
 
 -- ##########################################################################
 -- Question : Q12
 -- ##########################################################################
--- Q12. Create a report containing the conversion rates for weekly registration in each registration channel, based on customers registered in 2017. Show the following columns: week, channel_name, and conversion_rate. Format the conversion rates as percentages, rounded to a single decimal place. Order the results by week and channel name.
+-- Q12. Create a report containing the conversion rates for weekly registration in each
+-- registration channel, based on customers registered in 2017. Show the following
+-- columns: week, channel_name, and conversion_rate. Format the conversion rates as percentages,
+-- rounded to a single decimal place. Order the results by week and channel name.
 
+SELECT
+    WEEK(c.registration_date) AS week,
+    ch.channel_name,
+    ROUND(
+            COUNT(DISTINCT o.customer_id) / COUNT(DISTINCT c.customer_id) * 100,
+            1
+    ) AS conversion_rate
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+JOIN channels ch
+on c.channel_id = ch.id
+where year(registration_date) = 2017
+GROUP BY
+    Week ,
+    ch.channel_name
+ORDER BY
+    week,
+    ch.channel_name;
 
 -- ##########################################################################
 -- Question : Q13
 -- ##########################################################################
--- Q13. Show customers' emails and interval between their first purchase and the date of registration. Name the column difference.
+-- Q13. Show customers' emails and interval between their first purchase and the date of
+-- registration. Name the column difference.
 
+SELECT
+    email,
+    DATEDIFF(first_order_date, registration_date) AS difference
+FROM customers;
 
 -- ##########################################################################
 -- Question : Q14
 -- ##########################################################################
--- Q14. Find the average time from registration to first order for each channel. Show two columns: channel_name and avg_days_to_first_order.
+-- Q14. Find the average time from registration to first order for each channel.
+-- Show two columns: channel_name and avg_days_to_first_order.
 
+SELECT
+    ch.channel_name,
+    AVG(DATEDIFF(c.first_order_date, c.registration_date)) AS avg_days_to_first_order
+FROM customers c
+JOIN channels ch
+ON c.channel_id = ch.id
+GROUP BY ch.channel_name;
 
 -- ##########################################################################
 -- Question : Q15
