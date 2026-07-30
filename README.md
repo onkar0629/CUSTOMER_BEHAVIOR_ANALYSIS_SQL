@@ -72,7 +72,7 @@ The project contains six relational tables.
 # 🖼️ Data Model
 
 <p align="center">
-    <img src="https://github.com/onkar0629/CUSTOMER_BEHAVIOR_ANALYSIS_SQL/blob/main/DOCS/EER_Diagram.png?raw=true" alt="Data Model" width="900">
+    <img src="https://github.com/onkar0629/CUSTOMER_BEHAVIOR_ANALYSIS_SQL/blob/main/DOCS/Data_model.svg?raw=true" alt="Data Model" width="900">
 </p>
 
 ---
